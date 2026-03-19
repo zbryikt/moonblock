@@ -1,0 +1,58 @@
+extends /base.pug
+
+block vars
+  - var title = "擲筊＆博杯 / 祈願指引，求神問事 - Moon Blocks Pro"
+
+block head
+  style(type="text/css"): include:stylus index.styl
+
+block body
+  .moonblock-container
+    video#fog-video(src="fog.mp4" autoplay loop muted playsinline)
+    button#music-btn(title="背景音樂") ⏵
+    #youtube-player-placeholder
+    #canvas-container
+    .moonblock-app
+      .infopanel
+        h1.title 《擲筊＆博杯 / 祈願指引》
+        p.mb-3 求神問事，以此新月之形象徵天地之氣，筊分兩面，突出圓弧表「陰」（反），平坦切面表「陽」（正）。陰陽流轉，以傳達神明旨意。求神儀式，請先靜心，默念姓名、生辰、住址，並將心中疑惑或祈求之事，向神明誠心稟報。語畢，誠心擲下。
+        .controls
+          button.btn-throw#throw-btn(disabled) 載入中...
+          //- 不顯示但保留, 以備不時之需
+          label.toggle-floor(style="display:none; align-items:center; cursor:pointer; gap:6px; margin-right: 12px;")
+            input#floor-toggle(type="checkbox" style="cursor:pointer;")
+            span 運鏡特效
+          .keyboard-hints
+            p
+              div 快捷鍵：Space 擲筊
+              div ♫ 擲筊前請注意音量
+
+        .stats-section
+          .stat-item.holy
+            .stat-label 聖筊
+            .stat-count#count-holy 0
+          .stat-item.laughing
+            .stat-label 笑筊
+            .stat-count#count-laughing 0
+          .stat-item.angry
+            .stat-label 陰筊
+            .stat-count#count-angry 0
+
+    #result-overlay.result-overlay(style="display:none")
+      .result-content
+        .result-emoji
+        .result-name
+        .result-meaning.mb-3
+        .btn.btn-outline-light 叩謝神恩，謹記在心
+
+block script
+  script(type="importmap")
+    | {
+    |   "imports": {
+    |     "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    |     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+    |     "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+    |   }
+    | }
+  script: include moonblock-data.js
+  script(type="module"): include index.js

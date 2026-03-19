@@ -1,0 +1,27 @@
+{
+  "name": "moonblock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx server -r web -o true -m mp3,glb,mp4,jpg"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@loadingio/bootstrap.ext": "^0.0.12",
+    "@zbryikt/deploy": "^0.0.4",
+    "@zbryikt/template": "^2.4.1",
+    "bootstrap": "^4.6.1",
+    "ldview": "^1.7.2"
+  },
+  "frontendDependencies": {
+    "root": "web/static/assets/lib",
+    "modules": [
+      "@loadingio/bootstrap.ext",
+      "bootstrap",
+      "ldview"
+    ]
+  }
+}

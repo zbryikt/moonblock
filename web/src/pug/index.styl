@@ -1,0 +1,287 @@
+// 擲筊容器
+body
+  background: url(bk.jpg) center bottom
+  background-size: cover
+  color: #f8f9fa
+  font-size: 12px
+
+.moonblock-container
+  max-height calc(100vh - 40px)
+  max-width calc(100vw - 40px)
+  overflow hidden
+  position relative // 確保 fog-video 可以絕對定位
+
+#fog-video
+  position fixed
+  top 0
+  left 0
+  width 100%
+  height auto
+  object-fit cover
+  opacity 0.2 // 半透明
+  mix-blend-mode plus-lighter
+  pointer-events none // 讓滑鼠點擊穿透
+  z-index 10 // 蓋在最上層
+
+#music-btn
+  position fixed
+  top 20px
+  right 20px
+  width 40px
+  height 40px
+  border-radius 50%
+  background rgba(255, 255, 255, 0.8)
+  border 1px solid #ccc
+  color #333
+  font-size 20px
+  display flex
+  align-items center
+  justify-content center
+  cursor pointer
+  z-index 30 // 最高層級
+  transition all 0.2s ease
+
+  &:hover
+    background #fff
+    transform scale(1.1)
+
+  &.playing
+    padding-left 0 // 暫停圖示居中
+
+// 隱藏 YouTube 播放器但保持可播放狀態
+#youtube-player-placeholder, iframe[id^="youtube-player"]
+  position fixed
+  bottom 0
+  right 0
+  width 1px
+  height 1px
+  opacity 0
+  pointer-events none
+  z-index -1
+
+.moonblock-app
+  //-background #fff
+  //-border 1px solid #e0e0e0
+  border-radius 8px
+  padding 40px
+  box-shadow 0 2px 8px rgba(0, 0, 0, 0.08)
+  width 600px
+  max-width 100%
+  position relative
+  z-index 20 // 確保 app 本身在霧氣之上 (文字清晰)
+
+  .title
+    text-align center
+    color #fff
+    font-size 28px
+    font-weight 400
+    letter-spacing 2px
+
+// 全螢幕結果顯示
+.result-overlay
+  position fixed
+  top 0
+  left 0
+  width 100vw
+  height 100vh
+  background rgba(0, 0, 0, 0.85)
+  display none
+  align-items center
+  justify-content center
+  z-index 1000
+  cursor pointer
+  animation fadeIn 0.3s ease
+  font-family: serif
+
+  &.show
+    display flex
+
+  .result-content
+    text-align center
+    color #fff
+    user-select none
+
+    .result-emoji
+      font-size 90px
+      line-height: 1em
+      animation scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)
+
+    .result-name
+      font-size 64px
+      font-weight 500
+      letter-spacing 4px
+      animation slideUp 0.5s ease 0.1s both
+
+    .result-meaning
+      font-size 24px
+      font-weight 300
+      opacity 0.9
+      max-width: max(360px, 95%)
+      animation slideUp 0.5s ease 0.2s both
+      text-align: left
+
+@keyframes fadeIn
+  from
+    opacity 0
+  to
+    opacity 1
+
+@keyframes scaleIn
+  from
+    transform scale(0.5)
+    opacity 0
+  to
+    transform scale(1)
+    opacity 1
+
+@keyframes slideUp
+  from
+    transform translateY(20px)
+    opacity 0
+  to
+    transform translateY(0)
+    opacity 1
+
+// Three.js Canvas 容器
+#canvas-container
+  width 100%
+  height 400px
+  //border 1px solid #e8e8e8
+  border-radius 4px
+  background transparent // 透明背景
+  overflow hidden
+  position relative
+
+  canvas
+    display block
+    width 100%
+    height 100%
+
+// 控制按鈕
+.controls
+  color: #fff
+  display flex
+  gap 12px
+  margin-bottom 24px
+  justify-content center
+  align-items center // 使按鈕和文字提示垂直居中
+  flex-wrap wrap // 空間不足時允許換行
+
+  button
+    padding 12px 32px
+    font-size 16px
+    font-weight 400
+    border 1px solid #d0d0d0
+    border-radius 4px
+    cursor pointer
+    transition all 0.2s ease
+    background #fff
+    color #333
+    display inline-flex
+    align-items center
+    justify-content center
+
+    &:hover:not(:disabled)
+      border-color #999
+      background #fafafa
+
+    &:active:not(:disabled)
+      background #f0f0f0
+
+    &:disabled
+      opacity 0.4
+      cursor not-allowed
+      color #999
+
+  .btn-throw
+    background #c33
+    color #fe3
+    border-color #333
+
+    &:hover:not(:disabled)
+      background #555
+      border-color #555
+
+    &:active:not(:disabled)
+      background #222
+
+  // 鍵盤提示調整為並排
+  .keyboard-hints
+    margin 0 // 移除原本的 margin-bottom
+    p
+      margin 0 // 移除 p 標籤的預設 margin
+      white-space nowrap // 確保文字不換行
+
+// 統計區塊
+.stats-section
+  display flex
+  justify-content space-around
+  margin-top 20px
+  padding-top 20px
+  border-top 1px solid #eee
+
+  .stat-item
+    text-align center
+    display: flex
+    align-items: center
+    gap: .25em
+
+    .stat-emoji
+      font-size 32px
+      margin-bottom 4px
+
+    .stat-label
+      font-size 14px
+      color #999
+      margin-bottom 4px
+      font-weight 300
+
+    .stat-count
+      font-size 24px
+      font-weight 500
+      font-family "Courier New", monospace
+
+    &.holy
+      .stat-emoji, .stat-count
+        color #4CAF50
+    &.laughing
+      .stat-emoji, .stat-count
+        color #FF9800
+    &.angry
+      .stat-emoji, .stat-count
+        color #f44336
+
+// 響應式設計
+@media (max-width: 640px)
+  .moonblock-app
+    padding 24px
+    width 100%
+
+    .title
+      font-size 24px
+      margin-bottom 24px
+  .moonblock-container
+    width: 100%
+
+  .controls
+    flex-direction column
+
+    button
+      width 100%
+      padding 10px 20px
+      font-size 15px
+  .stats-section
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    background: rgba(0,0,0,.6)
+    margin: 0
+    border-top: 0 
+    padding-top: 0
+
+  .infopanel
+    position: fixed
+    bottom: 0
+    left: 1em
+    right: 1em
